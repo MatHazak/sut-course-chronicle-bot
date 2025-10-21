@@ -9,7 +9,14 @@
 	"compatibility_date": "2025-10-14",
 	"observability": {
 		"enabled": true
-	}
+	},
+	"d1_databases": [
+	{
+      "binding": "DB",
+      "database_name": "sut-courses-history-db",
+      "database_id": "5491da9c-ecba-4fa1-8da6-f0d17d82e97d"
+	    }
+	  ]
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
