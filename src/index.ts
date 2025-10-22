@@ -1,3 +1,5 @@
+import { handleCommand } from "./handlers/commands";
+
 export default {
   async fetch(request: Request, env: Env) {
     const botToken = env.BOT_TOKEN;
@@ -5,25 +7,16 @@ export default {
 
     if (request.method === "POST") {
       const update = await request.json();
-
       const message = update.message;
-      if (message?.text) {
-        const chatId = message.chat.id;
-        const text = message.text;
 
-        await fetch(`${apiUrl}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            chat_id: chatId,
-            text: text,
-          }),
-        });
+      // Only handle messages starting with "/"
+      if (message?.text?.startsWith("/")) {
+        await handleCommand(message, apiUrl, env.DB);
       }
 
       return new Response("OK");
     }
 
-    return new Response("Bot is running!");
+    return new Response("CourseChronicleBot is running!");
   },
 };
