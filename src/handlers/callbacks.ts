@@ -4,19 +4,19 @@ import { BotResponse } from "./helpers";
 export async function handleCallback(callback: any, apiUrl: string, db: D1Database) {
     const chatId = callback.message.chat.id;
     const messageId = callback.message.message_id;
-    const data = callback.data; // e.g. "course|HIST101|page2"
+    const data = callback.data; // e.g. "courseCode|HIST101|1405"
 
-    const [type, term, pageStr] = data.split("|");
-    const page = parseInt(pageStr.replace("page", ""), 10);
+    const [type, term, lastIdStr] = data.split("|");
+    const lastId = parseInt(lastIdStr, 10) || null; // cursor for next page
 
-    let reply: BotResponse = { text: "Unknown action."};
+    let reply: BotResponse = { text: "Unknown action." };
 
-    if (type === "courseCode") {
-        reply = await queryByCode(db, term, page);
+    if (type === "course") {
+        reply = await queryByCode(db, term, lastId);
     } else if (type === "title") {
-        reply = await queryByTitle(db, term, page)
+        reply = await queryByTitle(db, term, lastId);
     } else if (type === "prof") {
-        reply = await queryByProfessor(db, term, page);
+        reply = await queryByProfessor(db, term, lastId);
     }
 
     await fetch(`${apiUrl}/editMessageText`, {

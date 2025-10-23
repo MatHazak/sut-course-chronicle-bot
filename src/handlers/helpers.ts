@@ -3,6 +3,10 @@ export type BotResponse = {
     keyboard?: any;
 };
 
+export function escapeLike(input: string) {
+    return input.replace(/\\/g, "\\\\").replace(/%/g, "\\%").replace(/_/g, "\\_");
+}
+
 export function sanitizeInput(input: string) {
     return input.replace(/[*_`]/g, "").trim();
 }
