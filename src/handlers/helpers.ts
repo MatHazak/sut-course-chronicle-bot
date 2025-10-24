@@ -8,6 +8,7 @@ export function escapeLike(input: string) {
 }
 
 export function sanitizeInput(input: string) {
+    if (!input) return "";
     return input.replace(/[*_`]/g, "").trim();
 }
 
